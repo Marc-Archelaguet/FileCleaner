@@ -58,15 +58,15 @@ public class FileCleanerApp {
                         }
                         break;
 
-                        //Default option
+                    //Default option
                     default:
                         System.out.println("Invalid option. Select an option 0-3");
                 }
 
             } while (option != 0);
 
-        } catch (NumberFormatException e) {
-            throw new NumberFormatException("The option must be a number from 0 to 3 " + e);
+        } catch (SecurityException e) {
+            throw new SecurityException("Error " + e);
         }
 
 
@@ -74,21 +74,26 @@ public class FileCleanerApp {
 
     private static void handleOldFiles(List<File> oldFiles) {
 
-        if (oldFiles.isEmpty()) {
-            System.out.println("No old files were found");
-        } else {
-            System.out.println(oldFiles.size() + " old files have been found");
-            for (File f : oldFiles) {
-                System.out.print("Do you want to delete " + f.getName() + "? (y/n): ");
-                String answer = sc.nextLine().trim().toLowerCase();
-                if (answer.equals("y")) {
-                    if (f.delete()) {
-                        System.out.println("Deleted!");
-                    } else {
-                        System.out.println("The file couldn't be deleted");
+        try {
+            if (oldFiles.isEmpty()) {
+                System.out.println("No old files were found");
+            } else {
+                System.out.println(oldFiles.size() + " old files have been found");
+                for (File f : oldFiles) {
+                    System.out.print("Do you want to delete " + f.getName() + "? (y/n): ");
+                    String answer = sc.nextLine().trim().toLowerCase();
+                    if (answer.equals("y")) {
+                        if (f.delete()) {
+                            System.out.println("Deleted!");
+                        } else {
+                            System.out.println("The file couldn't be deleted");
+                        }
                     }
                 }
             }
+
+        } catch (SecurityException ex) {
+            System.out.println("Error deleting the file " + ex);
         }
     }
 

@@ -1,3 +1,4 @@
+import javax.sound.sampled.Line;
 import javax.swing.*;
 import java.io.File;
 import java.nio.file.Files;
@@ -12,13 +13,18 @@ public class FileSorter {
         String extension;
 
 
-        //Extract the extension.
-        int lastIndexOf = nameFile.lastIndexOf(".");
-        if (lastIndexOf >= 0) {
-            //Return the extension
-            extension = nameFile.toLowerCase().trim().substring(lastIndexOf + 1);
-        } else {
-            return null;
+        try {
+            //Extract the extension.
+            int lastIndexOf = nameFile.lastIndexOf(".");
+            if (lastIndexOf >= 0) {
+                //Return the extension
+                extension = nameFile.toLowerCase().trim().substring(lastIndexOf + 1);
+            } else {
+                return null;
+            }
+
+        } catch (IndexOutOfBoundsException ex) {
+            throw new IndexOutOfBoundsException("Error " + ex);
         }
 
         return extension;
@@ -30,61 +36,40 @@ public class FileSorter {
         String extension;
         String nameDirectory;
 
-        if (file.isFile()) {
-            extension = getFileExtension(file);
-
-            switch (extension) {
-                case "txt":
-                    nameDirectory = "Text Files";
-                    File path = new File("C:/Prova/" + nameDirectory);
-                    if (!path.exists()) {
-                        if (path.mkdir()) {
-                            System.out.println("The directory " + path.getName() + " has been created successfully!");
-
-                            //Once directory is created, move the file to the directory
-                            if (file.renameTo(path)){
-                                System.out.println("The file " + file.getName() + " has been moved to " + path.getName());
-                            }
-
-                        } else {
-                            System.out.println("The directory " + path.getName() + " could not been created");
-                        }
-                    } else {
-                        System.out.println("The directory " + path.getName() + " already exists");
-                    }
-                    break;
-
-                case "png":
-                    nameDirectory = "Images";
-                    File path2 = new File("C:/Prova/" + nameDirectory);
-
-                    if (!path2.exists()) {
-                        if (path2.mkdir()) {
-                            System.out.println("The directory " + path2.getName() + " has been created successfully!");
-                            //Once directory is created, move the file to the directory
-                            if (file.renameTo(path2)){
-                                System.out.println("The file " + file.getName() + " has been moved to " + path2.getName());
-                            }
-                        } else {
-                            System.out.println("The directory " + path2.getName() + " could not be created");
-                        }
-                    } else {
-                        System.out.println("The directory " + path2.getName() + " already exists");
-                    }
-                    break;
-            }
-
-
-
+        if (!file.isFile()) {
+            return;
         }
 
-    }
+        extension = getFileExtension(file);
 
-    public void moveToDirectory(File file){
+        switch (extension) {
+            case "txt":
+                nameDirectory = "Text Files";
+                break;
 
+            case "png":
+                nameDirectory = "Images";
+                break;
 
+            default:
+                nameDirectory = "Others";
+        }
 
+        File destinyDirectory = new File(file.getParentFile(), nameDirectory);
 
+        if (!destinyDirectory.exists()) {
+            if (destinyDirectory.mkdir()) {
+                System.out.println("Directory " + destinyDirectory.getName() + " created successfully");
+            } else {
+                System.out.println("Directory " + destinyDirectory.getName() + " could not be created");
+            }
+        }
+
+        File finalFile = new File(destinyDirectory, file.getName());
+
+        if (file.renameTo(finalFile)) {
+            System.out.println("The file " + file.getName() + " has been moved to " + finalFile.getName());
+        }
     }
 
 }
