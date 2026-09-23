@@ -1,10 +1,10 @@
-# ⚡ FileCleaner CLI
+# FileCleaner CLI
 
 A lightweight, modular command-line utility built in Java to organize directories, inspect files, and safely manage outdated files.
 
 ---
 
-## 📌 Overview
+## Overview
 
 Managing cluttered folders (such as `Downloads` or `Documents`) often leads to disorganized directories full of temporary files, old installers, and loose media. 
 
@@ -12,7 +12,7 @@ Managing cluttered folders (such as `Downloads` or `Documents`) often leads to d
 
 ---
 
-## ✨ Features
+## Features
 
 - **Directory Inspection:** Fast file listing with validation to ensure target paths exist and are valid directories.
 - **Categorization & Sorting:** Automatically classifies files by extension and moves them into dedicated subfolders:
@@ -24,7 +24,7 @@ Managing cluttered folders (such as `Downloads` or `Documents`) often leads to d
 
 ---
 
-## 🧱 Architecture & Design Principles
+## Architecture & Design Principles
 
 The application is structured around **Separation of Concerns (SoC)** to keep business logic decoupled from console input/output:
 
@@ -34,7 +34,7 @@ The application is structured around **Separation of Concerns (SoC)** to keep bu
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
